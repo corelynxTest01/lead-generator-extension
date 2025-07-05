@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ConvergeHub Lead Generator</title>
+  <!-- <link rel="stylesheet" href="popup.css" />
+  <link rel="stylesheet" href="/css/bootstrap.css" />
+   -->
+
+</head>
+
+<body>
+  <div class="header" id="lead-panel-header">
+    <div class="header-left">
+      <!-- <span class="logo-section"><img src="images/main.png" /></span> -->
+      <h2>ConvergeHub Lead Generator</h2>
+    </div>
+
+    <div id="lead-panel-close" class="close-button">X
+      <!-- <img src="images/close.svg" />X -->
+    </div>
+  </div>
+
+  <p class="text">
+    We have found your next potential customer! Capture their details
+    instantly and never miss an opportunity.
+  </p>
+
+  <p class="text">
+    Simply go to any profile page of LinkedIn social media and click on Lead
+    Generator icon on your Chrome Browser to save the profile as a lead.
+  </p>
+
+  <div class="save">
+    <button class="save-button" id="view-saved">View Saved Profiles</button>
+  </div>
+
+  <div id="status"></div>
+  <div id="loader"></div>
+  <div id="profile-details">
+    <div class="profile-main" id="profile-data">
+      <div>
+        <div class="profile-item">
+          <img class="images" id="profileImage" src="images/default.png" alt="profile-image" />
+        </div>
+      </div>
+      <div>
+        <div class="profile-item">
+          <span class="label">Name:</span>
+          <span id="profile-name" class="value">-</span>
+        </div>
+        <div class="profile-item">
+          <span class="label">Headline:</span>
+          <span id="profile-headline" class="value">-</span>
+        </div>
+        <div class="profile-item">
+          <span class="label">Location:</span>
+          <span id="profile-location" class="value">-</span>
+        </div>
+        <div class="profile-item">
+          <span class="label">Email:</span>
+          <span id="profile-email" class="value">-</span>
+        </div>
+        <div class="profile-item">
+          <span class="label">Phone:</span>
+          <span id="profile-phone" class="value">-</span>
+        </div>
+        <div class="profile-item">
+          <span class="label">Socials:</span>
+          <span id="profile-socials" class="value">-</span>
+        </div>
+        <div class="profile-item">
+          <span class="label">About:</span>
+          <span id="profile-about" class="value">-</span>
+        </div>
+        <span class="copy-msg" id="copy-msg"></span>
+      </div>
+    </div>
+    <div class="login-form" id="login-forms">
+      <div class="card">
+        <div class="card-header">Login</div>
+        <div class="card-body">
+          <form class="row g-3 align-items-center" id="loginForm">
+            <div class="col-4">
+              <label for="exampleInputEmail1" class="visually-hidden">Email</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Enter email" />
+            </div>
+            <div class="col-4">
+              <label for="exampleInputPassword1" class="visually-hidden">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" />
+            </div>
+            <div class="col-4">
+              <button type="submit" id="loginButton" class="btn btn-primary">
+                Confirm Identity
+              </button>
+            </div>
+
+            <div class="col-12">
+              <p class="powered-bottom mb-0">
+                new user? sign into
+                <a href="https://www.convergehub.com/signup" target="_blank">ConvergeHub</a>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="save">
+      <!-- <button class="save-button" id="saveButton">Copy to Clipboard</button> -->
+      <button class="save-button" id="showLogin">save to CRM</button>
+      <button class="save-button" id="saved">save</button>
+      <!-- <button class="save-button" id="view-saved">View Saved</button> -->
+      <button class="save-button btn-secondary" id="logoutButton" style="display: none" title="Logout from CRM">
+        Logout
+      </button>
+    </div>
+  </div>
+  <div class="saved-profiles-section" id="saved-profiles-section" style="display: none">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Saved Profiles</h5>
+        <div>
+          <button class="btn btn-sm btn-secondary mr-2" id="close-saved-profiles">
+            Back
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="platform-tabs mb-3">
+          <button class="btn btn-sm btn-outline-primary active" data-platform="all">
+            All
+          </button>
+          <button class="btn btn-sm btn-outline-primary" data-platform="linkedin">
+            LinkedIn
+          </button>
+          <button class="btn btn-sm btn-outline-primary" data-platform="twitter">
+            X
+          </button>
+          <button class="btn btn-sm btn-outline-primary" data-platform="facebook">
+            Facebook
+          </button>
+        </div>
+
+        <div id="saved-profiles-list" class="saved-profiles-list"></div>
+        <div id="no-profiles-message" class="text-center text-muted" style="display: none">
+          <p>No saved profiles found.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="powered-bottom">Powered by
+    <a href="https://www.convergehub.com/" target="_blank">ConvergeHub</a></span>
+  <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel"
+    aria-hidden="true" style="display: none">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmModalLabel">Confirm Action</h5>
+          <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="confirmModalBody">
+          Are you sure you want to proceed?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="confirmCancel">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-primary" id="confirmOk">
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <script type="module" src="popup.js"></script> -->
+  <!-- <script src="/js/bootstrape.js"></script> -->
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Lead Generator Tool",
+  "version": "1.1",
+  "description": "Generate leads from LinkedIn/FaceBook/Twitter profiles with a single click.",
+  "author": "Reya Dutta",
+  "permissions": [
+    "scripting",
+    "activeTab"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "popup.js",
+        "popup.html",
+        "popup.css",
+        "images/*",
+        "helper/*",
+        "library/*",
+        "js/*",
+        "css/*"
+      ],
+      "matches": [
+        "*://*.linkedin.com/*"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": "images/icon128.png"
+  },
+  "icons": {
+    "128": "images/icon128.png"
+  }
+}
