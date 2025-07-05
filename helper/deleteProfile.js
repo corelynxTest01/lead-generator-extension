@@ -2,79 +2,39 @@ import showError from "./showError";
 import renderSavedProfiles from "./renderSavedProfiles";
 import showBootstrapAlert from "./showBootstrapAlert";
 import logStorageStats from "./logStorageStats";
-const deleteProfile = async (profileId, platform) => {
-  if (!confirm("Are you sure you want to delete this profile?")) {
-    return;
-  }
+
+export default async function deleteProfile(profileId, platform) {
+  if (!confirm("Are you sure you want to delete this profile?")) return;
 
   try {
-    console.log("Attempting to delete profile:",profileId,"from platform:",platform);
-    const result = await chrome.storage.local.get([
-      
-    ]);
-    let savedProfiles = result.savedProfiles || {};
-    console.log("Current saved profiles:", savedProfiles);
-    console.log("Available platform keys:", Object.keys(savedProfiles));
+    const { savedProfiles = {} } = await chrome.storage.local.get(["savedProfiles"]);
     let targetPlatform = platform.toLowerCase();
-    let profileFound = false;
-    if (!savedProfiles[targetPlatform]) {
-      console.log("Direct platform not found, searching across all platforms...");
-      for (const platformKey of Object.keys(savedProfiles)) {
-        if (
-          savedProfiles[platformKey] &&
-          savedProfiles[platformKey].some((p) => p.id === profileId)) {
-          targetPlatform = platformKey;
-          profileFound = true;
-          console.log("Found profile in platform:", platformKey);
-          break;
-        }
-      }
+    let profiles = savedProfiles[targetPlatform];
 
-      if (!profileFound) {
-        console.error(
-          "Profile not found in any platform. Profile ID:",
-          profileId
-        );
+    // If not found directly, search all platforms
+    if (!profiles) {
+      targetPlatform = Object.keys(savedProfiles).find(key => savedProfiles[key]?.some(p => p.id === profileId)
+      );
+      profiles = savedProfiles[targetPlatform];
+      if (!profiles) {
         showError("Profile not found in any platform.");
         return;
       }
-    } else {
-      profileFound = true;
     }
 
-    const originalLength = savedProfiles[targetPlatform].length;
-    console.log("Original profiles count for",targetPlatform,":",originalLength);
-    savedProfiles[targetPlatform] = savedProfiles[targetPlatform].filter(
-      (profile) => {
-        console.log("Checking profile ID:",profile.id,"against target:",profileId);
-        return profile.id !== profileId;
-      }
-    );
+    const filteredProfiles = profiles.filter(profile => profile.id !== profileId);
 
-    const newLength = savedProfiles[targetPlatform].length;
-    console.log("New profiles count for", targetPlatform, ":", newLength);
-
-    if (newLength < originalLength) {
-      await chrome.storage.local.set({ savedProfiles: savedProfiles });
-      savedProfilesData = savedProfiles;
-      renderSavedProfiles();
-
-      showBootstrapAlert("Profile deleted successfully!");
-      logStorageStats(savedProfiles);
-
-      console.log("Profile deleted successfully");
-    } else {
-      console.error("Profile not found for deletion. Profile ID:", profileId);
-      console.error(
-        "Available profile IDs:",
-        savedProfiles[targetPlatform].map((p) => p.id)
-      );
+    if (filteredProfiles.length === profiles.length) {
       showError("Profile not found for deletion.");
+      return;
     }
+
+    savedProfiles[targetPlatform] = filteredProfiles;
+    await chrome.storage.local.set({ savedProfiles });
+    renderSavedProfiles();
+    showBootstrapAlert("Profile deleted successfully!");
+    logStorageStats(savedProfiles);
   } catch (error) {
-    console.error("Error deleting profile:", error);
     showError("Failed to delete profile. Error: " + error.message);
   }
-};
-
-export default deleteProfile;
+}

@@ -1,49 +1,49 @@
-function showConfirmDialog(message, title = 'Confirm Action') {
+export default function showConfirmDialog(message, title = 'Confirm Action') {
   return new Promise((resolve) => {
     const modal = document.getElementById('confirmModal');
-    const modalTitle = document.getElementById('confirmModalLabel');
-    const modalBody = document.getElementById('confirmModalBody');
-    const confirmBtn = document.getElementById('confirmOk');
-    const cancelBtn = document.getElementById('confirmCancel');
+    if (!modal) return resolve(false);
+
+    const modalTitle = modal.querySelector('#confirmModalLabel');
+    const modalBody = modal.querySelector('#confirmModalBody');
+    const confirmBtn = modal.querySelector('#confirmOk');
+    const cancelBtn = modal.querySelector('#confirmCancel');
     const closeBtn = modal.querySelector('.close');
+
     modalTitle.textContent = title;
     modalBody.textContent = message;
-    modal.style.display = 'block';
     modal.classList.add('show');
+    modal.style.display = 'block';
     document.body.classList.add('modal-open');
-    
+
     const cleanup = () => {
-      confirmBtn.removeEventListener('click', handleConfirm);
-      cancelBtn.removeEventListener('click', handleCancel);
-      closeBtn.removeEventListener('click', handleCancel);
-      document.removeEventListener('keydown', handleEscape);
+      confirmBtn.removeEventListener('click', onConfirm);
+      cancelBtn.removeEventListener('click', onCancel);
+      closeBtn.removeEventListener('click', onCancel);
+      document.removeEventListener('keydown', onEscape);
     };
-  
+
     const hideModal = () => {
-      modal.style.display = 'none';
       modal.classList.remove('show');
+      modal.style.display = 'none';
       document.body.classList.remove('modal-open');
       cleanup();
     };
-    
-    const handleConfirm = () => {
+
+    const onConfirm = () => {
       hideModal();
       resolve(true);
     };
-    const handleCancel = () => {
+    const onCancel = () => {
       hideModal();
       resolve(false);
     };
-    const handleEscape = (e) => {
-      if (e.key === 'Escape') {
-        handleCancel();
-      }
+    const onEscape = (e) => {
+      if (e.key === 'Escape') onCancel();
     };
-    confirmBtn.addEventListener('click', handleConfirm);
-    cancelBtn.addEventListener('click', handleCancel);
-    closeBtn.addEventListener('click', handleCancel);
-    document.addEventListener('keydown', handleEscape);
+
+    confirmBtn.addEventListener('click', onConfirm);
+    cancelBtn.addEventListener('click', onCancel);
+    closeBtn.addEventListener('click', onCancel);
+    document.addEventListener('keydown', onEscape);
   });
 }
-
-export default showConfirmDialog;

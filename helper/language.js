@@ -5,7 +5,7 @@ const language = (() => ({
     notProfilePage: "You are not on a profile page. Navigate to a profile to extract data.",
     noProfileData: "No profile data found.",
     extractionFailed: "Couldn't extract profile data. Make sure you're on a profile page.",
-    notSupported : "Please navigate to a LinkedIn or Twitter profile page"
+    notSupported: "Please navigate to a LinkedIn or Twitter profile page"
   },
   ui: {
     copySuccess: "Content copied successfully.",

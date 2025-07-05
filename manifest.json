@@ -5,25 +5,39 @@
   "description": "Generate leads from LinkedIn/FaceBook/Twitter profiles with a single click.",
   "author": "Reya Dutta",
   "permissions": [
+    "storage",
     "scripting",
-    "activeTab"
+    "activeTab",
+    "https://api.convergehub.com/"
   ],
   "web_accessible_resources": [
     {
       "resources": [
         "popup.js",
+        "config.js",
         "popup.html",
         "popup.css",
         "images/*",
         "helper/*",
         "library/*",
+        "language/*",
         "js/*",
         "css/*"
       ],
       "matches": [
-        "*://*.linkedin.com/*"
+        "*://*.linkedin.com/*",
+        "*://*.facebook.com/*",
+        "*://*.x.com/*"
       ]
     }
+  ],
+  "host_permissions": [
+    "https://www.linkedin.com/*",
+    "https://twitter.com/*",
+    "https://x.com/*",
+    "https://www.facebook.com/*",
+    "https://facebook.com/*",
+    "https://api.convergehub.com/*"
   ],
   "background": {
     "service_worker": "background.js"

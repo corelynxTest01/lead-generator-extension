@@ -1,8 +1,9 @@
-const showError= (message) => {
-  document.getElementById("loader").style.display = "none";
-  
-  const statusElement = document.getElementById("status");
-  statusElement.classList.add('not-linkedin');
-  statusElement.textContent = message;
+export default function showError(message) {
+  const loader = document.getElementById("loader");
+  const status = document.getElementById("status");
+  if (loader) loader.style.display = "none";
+  if (status) {
+    status.classList.add("not-linkedin");
+    status.textContent = message;
+  }
 }
-export default showError;
