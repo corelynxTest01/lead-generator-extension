@@ -3,14 +3,9 @@ import language from "../helper/language.js";
 export default async function linkedinProfile() {
   try {
     const originalUrl = window.location.href;
+    if (!window.location.href.includes("/contact-info/")) document.querySelector('a[href*="contact-info"]')?.click();
 
-    if (!window.location.href.includes("/contact-info/")) {
-      const contactInfoLink = document.querySelector('a[href*="contact-info"]');
-      if (contactInfoLink) {
-        await contactInfoLink.click();
-      }
-    }
-
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     const profileData = {
       profileimg: "images/default.png",
       name: "",

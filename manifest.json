@@ -1,14 +1,14 @@
 {
+  "name": "ConvergeHub Lead Generator",
+  "short_name": "CLG",
+  "description": "Lead capture from LinkedIn, Facebook, Twitter, Gmail and many more. Free CRM included.",
+  "version": "2.3.6",
   "manifest_version": 3,
-  "name": "Lead Generator Tool",
-  "version": "1.1",
-  "description": "Generate leads from LinkedIn/FaceBook/Twitter profiles with a single click.",
   "author": "Reya Dutta",
   "permissions": [
     "storage",
     "scripting",
-    "activeTab",
-    "https://api.convergehub.com/"
+    "activeTab"
   ],
   "web_accessible_resources": [
     {
@@ -31,6 +31,21 @@
       ]
     }
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "images/icon-16.png",
+      "48": "images/icon-48.png",
+      "128": "images/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "images/icon-16.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  },
   "host_permissions": [
     "https://www.linkedin.com/*",
     "https://twitter.com/*",
@@ -38,14 +53,5 @@
     "https://www.facebook.com/*",
     "https://facebook.com/*",
     "https://api.convergehub.com/*"
-  ],
-  "background": {
-    "service_worker": "background.js"
-  },
-  "action": {
-    "default_icon": "images/icon128.png"
-  },
-  "icons": {
-    "128": "images/icon128.png"
-  }
+  ]
 }

@@ -5,23 +5,23 @@ import showError from "./showError.js";
 const generateUniqueId = () =>
   Date.now().toString(36) + Math.random().toString(36).slice(2);
 
-const getCurrentTabUrl = () =>
+const getCurrentTab = () =>
   new Promise((resolve) => {
-    chrome.runtime.sendMessage({ action: "getCurrentTabUrl" }, (response) =>
-      resolve(response?.url || "")
+    chrome.runtime.sendMessage({ action: "getCurrentTab" }, (response) =>
+      resolve(response)
     );
   });
 
 const saveProfileData = async (profileData, platform) => {
   try {
     const profileId = generateUniqueId();
-    const url = await getCurrentTabUrl();
+    const tabs = await getCurrentTab();
     const profileToSave = {
       id: profileId,
       platform,
       data: profileData,
       savedAt: new Date().toISOString(),
-      url,
+      url: tabs?.[0].url,
     };
 
     const { savedProfiles = { linkedin: [], twitter: [], facebook: [], instagram: [] } } =
